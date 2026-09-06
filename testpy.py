@@ -4,32 +4,25 @@ import matplotlib.pyplot as plt
 
 def main():
     # ==============================
-    # 1. Thiết lập các tham số
+    # 1. Thiết lập tham số
     # ==============================
 
-    # Thời gian mô phỏng
-    t = np.linspace(0, 10, 1000)
+    t = np.linspace(0, 12, 1200)
 
-    # Biên độ ban đầu
-    A = 5.0
-
-    # Hệ số suy giảm
-    beta = 0.3
-
-    # Tần số góc
-    omega = 2 * np.pi * 1.0
-
-    # Pha ban đầu
-    phi = 0.0
+    A = 6.0
+    beta = 0.25
+    frequency = 0.8
+    omega = 2 * np.pi * frequency
+    phi = np.pi / 6
 
     # ==============================
-    # 2. Tạo đường bao dao động
+    # 2. Đường bao dao động
     # ==============================
 
     envelope = A * np.exp(-beta * t)
 
     # ==============================
-    # 3. Nghiệm lý thuyết
+    # 3. Tín hiệu lý thuyết
     # ==============================
 
     x_ideal = envelope * np.cos(omega * t + phi)
@@ -38,9 +31,9 @@ def main():
     # 4. Thêm nhiễu Gaussian
     # ==============================
 
-    np.random.seed(42)
+    np.random.seed(10)
 
-    noise_std = 0.25
+    noise_std = 0.3
 
     noise = np.random.normal(
         0,
@@ -48,33 +41,29 @@ def main():
         size=len(t)
     )
 
-    # Dữ liệu có nhiễu
     x_noisy = x_ideal + noise
 
     # ==============================
-    # 5. Vẽ biểu đồ
+    # 5. Vẽ đồ thị
     # ==============================
 
     plt.figure(figsize=(10, 6))
 
-    # Dữ liệu cảm biến có nhiễu
     plt.plot(
         t,
         x_noisy,
         alpha=0.5,
         linewidth=1,
-        label="Dữ liệu cảm biến có nhiễu"
+        label="Dữ liệu cảm biến"
     )
 
-    # Nghiệm lý thuyết
     plt.plot(
         t,
         x_ideal,
         linewidth=2,
-        label="Nghiệm lý thuyết"
+        label="Tín hiệu lý thuyết"
     )
 
-    # Đường bao phía trên
     plt.plot(
         t,
         envelope,
@@ -83,7 +72,6 @@ def main():
         label="Đường bao"
     )
 
-    # Đường bao phía dưới
     plt.plot(
         t,
         -envelope,
@@ -92,7 +80,7 @@ def main():
     )
 
     # ==============================
-    # 6. Trang trí biểu đồ
+    # 6. Thiết lập biểu đồ
     # ==============================
 
     plt.title(
@@ -101,12 +89,12 @@ def main():
     )
 
     plt.xlabel(
-        "Thời gian t (s)",
+        "Thời gian (s)",
         fontsize=12
     )
 
     plt.ylabel(
-        "Biên độ x(t)",
+        "Biên độ",
         fontsize=12
     )
 
@@ -116,15 +104,12 @@ def main():
         alpha=0.6
     )
 
-    plt.legend(
-        loc="upper right",
-        framealpha=0.9
-    )
+    plt.legend()
 
     plt.tight_layout()
 
     # ==============================
-    # 7. Lưu biểu đồ
+    # 7. Lưu kết quả
     # ==============================
 
     output_img = "damped_oscillation_plot.png"
@@ -137,12 +122,6 @@ def main():
     print(
         f"-> Đã xuất đồ thị thành công ra file: {output_img}"
     )
-
-    # ==============================
-    # 8. Hiển thị biểu đồ
-    # ==============================
-
-    plt.show()
 
 
 if __name__ == "__main__":
